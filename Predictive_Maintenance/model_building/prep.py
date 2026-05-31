@@ -44,6 +44,17 @@ test_path = os.path.join(
     "test.csv"
 )
 
+from sklearn.model_selection import train_test_split
+import pandas as pd
+
+# Load dataset (CHANGE PATH ACCORDING TO YOUR FILE)
+df = pd.read_csv("Predictive_Maintenance/data/dataset.csv")
+
+# Train-test split
+train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
+
+print("Train/Test split done")
+
 train_df.to_csv(
     train_path,
     index=False
