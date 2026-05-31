@@ -1,6 +1,6 @@
 import streamlit as st
 
-from Predictive_Maintenance.src.predict import (
+from src.predict import (
     predict_engine_condition
 )
 
