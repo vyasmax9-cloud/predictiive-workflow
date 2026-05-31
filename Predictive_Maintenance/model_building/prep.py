@@ -26,12 +26,30 @@ api = HfApi()
 
 save_path = os.path.join(
     os.getcwd(),
-    "prepared_data"
+    "Predictive_Maintenance",
+    "data"
 )
 
 os.makedirs(
     save_path,
     exist_ok=True
+)
+
+dataset_path = os.path.join(
+    os.getcwd(),
+    "Predictive_Maintenance",
+    "data",
+    "engine_data.csv"
+)
+
+df = pd.read_csv(dataset_path)
+
+from sklearn.model_selection import train_test_split
+
+train_df, test_df = train_test_split(
+    df,
+    test_size=0.2,
+    random_state=42
 )
 
 train_path = os.path.join(
@@ -44,11 +62,19 @@ test_path = os.path.join(
     "test.csv"
 )
 
+train_df.to_csv(
+    train_path,
+    index=False
+)
+
+test_df.to_csv(
+    test_path,
+    index=False
+)
+
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-# Load dataset (CHANGE PATH ACCORDING TO YOUR FILE)
-df = pd.read_csv("Predictive_Maintenance/data/dataset.csv")
 
 # Train-test split
 train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
