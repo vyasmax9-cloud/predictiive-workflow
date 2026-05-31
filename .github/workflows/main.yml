@@ -40,7 +40,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/src/data_register.py
+        run: python Predictive_Maintenance/data_register.py
 
 
 # ==========================================
@@ -75,7 +75,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/src/data_prep.py
+        run: python Predictive_Maintenance/data_prep.py
 
 
 # ==========================================
@@ -110,7 +110,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/src/train.py
+        run: python Predictive_Maintenance/train.py
 
 
 # ========================================== 
@@ -137,7 +137,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/src/model_registration.py
+        run: python Predictive_Maintenance/model_registration.py
 
 
 # ========================================== 
