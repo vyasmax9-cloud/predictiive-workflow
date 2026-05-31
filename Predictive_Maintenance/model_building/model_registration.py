@@ -1,5 +1,3 @@
-%%writefile Predictive_Maintenance/model_building/model_registration.py
-
 import os
 import mlflow
 
