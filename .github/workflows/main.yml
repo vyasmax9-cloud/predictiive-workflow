@@ -1,12 +1,8 @@
-
 name: Predictive Maintenance ML Pipeline
 
 on:
-
   push:
-
     branches:
-
       - main
 
 jobs:
@@ -14,164 +10,130 @@ jobs:
 # ==========================================
 # DATA REGISTRATION
 # ==========================================
-
   register-dataset:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Setup Python
-
-        uses: actions/setup-python@v4
-
+        uses: actions/setup-python@v5
         with:
-
           python-version: "3.11"
 
       - name: Install Dependencies
-
         run: pip install -r requirements.txt
 
       - name: Register Dataset to HF
-
         env:
-
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-
         run: python Predictive_Maintenance/model_building/data_register.py
-
 
 
 # ==========================================
 # DATA PREPARATION
 # ==========================================
-
   data-preparation:
-
     needs: register-dataset
-
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Setup Python
-
-        uses: actions/setup-python@v4
-
+        uses: actions/setup-python@v5
         with:
-
           python-version: "3.11"
 
       - name: Install Dependencies
-
         run: pip install -r requirements.txt
 
       - name: Run Data Preparation
-
-        env:
-
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-
-        run: python Predictive_Maintenance/model_building/prep.py 
+        run: python Predictive_Maintenance/model_building/prep.py
 
 
 # ==========================================
-# MODEL BUILDING
-# ========================================== 
-
+# MODEL TRAINING
+# ==========================================
   model-training:
-
     needs: data-preparation
-
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Setup Python
-
-        uses: actions/setup-python@v4
-
+        uses: actions/setup-python@v5
         with:
-
           python-version: "3.11"
 
       - name: Install Dependencies
-
         run: pip install -r requirements.txt
 
       - name: Train Model
-
-        env:
-
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-
         run: python Predictive_Maintenance/model_building/model_experiment.py
 
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: Predictive_Maintenance/models/
 
-# ========================================== 
-# MODEL REGISTRATION
-# ========================================== 
 
+# ==========================================
+# MODEL REGISTRATION (HF HUB UPLOAD)
+# ==========================================
   model-registration:
-
     needs: model-training
-
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
+      - name: Install Dependencies
         run: pip install -r requirements.txt
 
+      - name: Download Model Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trained-model
+          path: Predictive_Maintenance/models/
+
       - name: Upload Model To HF Hub
-
         env:
-
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python Predictive_Maintenance/model_building/model_registration.py
 
-        run: python Predictive_Maintenance/model_building/model_experiment.py
 
-
-# ========================================== 
+# ==========================================
 # DEPLOYMENT
-# ========================================== 
-
+# ==========================================
   deployment:
-
     needs:
-
       - register-dataset
-
       - data-preparation
-
       - model-training
-
       - model-registration
 
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
+      - name: Install Dependencies
         run: pip install -r requirements.txt
 
       - name: Deploy to Hugging Face Space
-
         env:
-
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-
         run: python Predictive_Maintenance/hosting/hosting.py
