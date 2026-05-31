@@ -112,7 +112,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/train.py
+        run: python Predictive_Maintenance/model_building/model_experiment.py
 
 
 # ========================================== 
@@ -139,7 +139,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/model_registration.py
+        run: python Predictive_Maintenance/model_building/model_experiment.py
 
 
 # ========================================== 
