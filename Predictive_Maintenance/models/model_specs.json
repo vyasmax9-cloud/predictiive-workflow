@@ -1,0 +1,5 @@
+{
+    "model_algorithm": "Random Forest",
+    "f1_score": 0.6549160477054105,
+    "accuracy": 0.6496032761709751
+}
