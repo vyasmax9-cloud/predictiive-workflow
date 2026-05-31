@@ -1,3 +1,4 @@
+
 name: Predictive Maintenance ML Pipeline
 
 on:
@@ -40,7 +41,8 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/data_register.py
+        run: python Predictive_Maintenance/model_building/data_register.py
+
 
 
 # ==========================================
@@ -75,7 +77,7 @@ jobs:
 
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
-        run: python Predictive_Maintenance/data_prep.py
+        run: python Predictive_Maintenance/model_building/prep.py 
 
 
 # ==========================================
