@@ -24,6 +24,11 @@ api = HfApi()
 # SAVE TRAIN / TEST
 # ==========================================
 
+save_path = os.path.join(
+    os.getcwd(),
+    "prepared_data"
+)
+
 os.makedirs(
     save_path,
     exist_ok=True
